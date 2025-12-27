@@ -1,3 +1,6 @@
+![GitHub stars](https://img.shields.io/github/stars/<username>/AI-Meeting-Notes)
+![GitHub issues](https://img.shields.io/github/issues/<username>/AI-Meeting-Notes)
+
 # AI-Powered Meeting Notes Generator
 
 An AI-assisted backend system that converts meeting audio into structured meeting notes.
