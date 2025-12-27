@@ -1,0 +1,13 @@
+# Java
+target/
+*.log
+.idea/
+*.iml
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store

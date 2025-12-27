@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Meeting Notes Generator</title>
+</head>
+<body style="font-family: Arial; margin: 40px">
+
+<h2>🎙️ AI Meeting Notes Generator</h2>
+
+<form id="uploadForm">
+    <input type="file" id="audioFile" required />
+    <br><br>
+    <button type="submit">Generate Notes</button>
+</form>
+
+<h3>Summary</h3>
+<pre id="summary" style="background:#f4f4f4; padding:10px"></pre>
+
+<h3>Action Items</h3>
+<ul id="actions"></ul>
+
+<h3>Decisions</h3>
+<ul id="decisions"></ul>
+
+<h3>Transcript</h3>
+<pre id="transcript" style="background:#f4f4f4; padding:10px"></pre>
+
+<script>
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const fileInput = document.getElementById("audioFile");
+        const formData = new FormData();
+        formData.append("file", fileInput.files[0]);
+
+        // Reset UI
+        document.getElementById("summary").innerText = "Processing...";
+        document.getElementById("transcript").innerText = "";
+        document.getElementById("actions").innerHTML = "";
+        document.getElementById("decisions").innerHTML = "";
+
+        const response = await fetch("/api/meetings/upload", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        // Summary & transcript
+        document.getElementById("summary").innerText = data.notes.summary;
+        document.getElementById("transcript").innerText = data.transcript;
+
+        // Action items
+        const actionsUl = document.getElementById("actions");
+        (data.notes.actionItems || []).forEach(item => {
+            const li = document.createElement("li");
+            li.innerText = item;
+            actionsUl.appendChild(li);
+        });
+
+        // Decisions
+        const decisionsUl = document.getElementById("decisions");
+        (data.notes.decisions || []).forEach(item => {
+            const li = document.createElement("li");
+            li.innerText = item;
+            decisionsUl.appendChild(li);
+        });
+    });
+</script>
+
+</body>
+</html>
